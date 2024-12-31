@@ -18,6 +18,7 @@ public abstract class Movement : MonoBehaviour {
 
     public abstract void Move();
     public abstract float CalculateCurrentSpeed();
+    public abstract void CameraMovement();
     public abstract void SetDefaultState();
 
 }

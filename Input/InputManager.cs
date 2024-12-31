@@ -19,8 +19,12 @@ public class InputManager : MonoBehaviour
         return playerInput.actions["Move"].ReadValue<Vector3>();
     }
 
+    public Vector2 GetMousePositionInput() {
+        return playerInput.actions["CameraMove"].ReadValue<Vector2>();
+    }
+
     public bool GetSprintInput() {
-        return playerInput.actions["Sprint"].WasPressedThisFrame();
+        return playerInput.actions["Sprint"].IsInProgress();
     }
 
    
