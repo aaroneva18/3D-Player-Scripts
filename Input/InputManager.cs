@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,28 +6,24 @@ public class InputManager : MonoBehaviour
     public PlayerInput playerInput;
 
     private void Awake() {
-
+        GetPlayerInput();
     }
-
-    void Start()
-    {
-            
-    }
-
-
-    void Update()
-    {
-        
-    }
-
     public void GetPlayerInput() {
-        if () {
-
+        try {
+        playerInput = GetComponent<PlayerInput>(); 
+        } catch (System.Exception e) {
+            Debug.LogError(e);
         }
     }
     public Vector3 GetMovementInput() {
-        return playerInput.actions["Movement"].ReadValue<Vector3>();
+        return playerInput.actions["Move"].ReadValue<Vector3>();
     }
+
+    public bool GetSprintInput() {
+        return playerInput.actions["Sprint"].WasPressedThisFrame();
+    }
+
+   
 
     
 }
