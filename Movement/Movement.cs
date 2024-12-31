@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Movement : MonoBehaviour {
+public abstract class Movement : MonoBehaviour {
 
     public bool isPlayable;
 
@@ -12,13 +10,13 @@ public class Movement : MonoBehaviour {
     [SerializeField] protected float jumpForce = 0;
     [SerializeField] protected Rigidbody rb = null;
 
-    [SerializeField] protected PlayerInput playerInput = null;
+
+    protected PlayerInput playerInput = null;
+    protected InputManager inputManager = null;
 
     private void Awake() {}
     void Start(){}
     void Update(){}
 
-    private void Move() {
-        
-    }
+    public abstract void Move();
 }
