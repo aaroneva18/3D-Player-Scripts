@@ -21,7 +21,7 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        
+        CameraMovement();
     }
 
     public void CameraMovement() {
