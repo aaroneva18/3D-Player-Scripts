@@ -15,16 +15,13 @@ public class PlayerMovement : Movement
     }
 
     public override void Move() {
-        Vector3 movement = inputManager.GetMovementInput();
-        Vector3 moveDirection = new Vector3(movement.x, 0, movement.y);
-        rb.velocity = new Vector3(moveDirection.x * CalculateCurrentSpeed(), rb.velocity.y, moveDirection.z * CalculateCurrentSpeed());
+        Vector2 movement = inputManager.GetMovementInput();
+        Vector3 moveDirection = (movement.y * transform.forward) + (movement.x * transform.right);
+        transform.position = moveDirection * CalculateCurrentSpeed() * Time.deltaTime;
     }
 
     public override float CalculateCurrentSpeed() {
         return currentSpeed = inputManager.GetSprintInput() ? runSpeed : walkSpeed;
-    }
-    public override void CameraMovement() {
-        throw new System.NotImplementedException();
     }
 
     public override void SetDefaultState() {

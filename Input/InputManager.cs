@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class InputManager : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    private PlayerInput playerInput;
+    private InputAction lookAction;
+    private InputActionAsset inputActionAsset;
+    
+
 
     private void Awake() {
         GetPlayerInput();
@@ -17,12 +19,13 @@ public class InputManager : MonoBehaviour
             Debug.LogError(e);
         }
     }
-    public Vector3 GetMovementInput() {
-        return playerInput.actions["Move"].ReadValue<Vector3>();
+
+    public Vector2 GetMovementInput() {
+        return playerInput.actions["Move"].ReadValue<Vector2>();    
     }
 
-    public Vector2 GetCameraMoveInput() {
-        return playerInput.actions["CameraMove"].ReadValue<Vector2>();
+    public Vector2 GetCameraLookInput() {
+        return playerInput.actions["Look"].ReadValue<Vector2>();
     }
 
     public bool GetSprintInput() {
