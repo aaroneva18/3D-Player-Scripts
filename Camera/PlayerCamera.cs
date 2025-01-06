@@ -6,7 +6,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float senX;
     [SerializeField] private float senY;
     [SerializeField] private Transform orientation;
-    [SerializeField] private InputManager inputManager;
+    [SerializeField] private InputManagerPlayer InputManagerPlayer;
 
     private float xRotation;
     private float yRotation;
@@ -14,11 +14,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake() {
         LockScreenCursor();
-
-    }
-    void Start()
-    {
-        
+        GameObject.Find("Player").GetComponent<InputManagerPlayer>();
     }
 
     void Update()
@@ -28,7 +24,7 @@ public class PlayerCamera : MonoBehaviour
 
     public void CameraMovement() {
 
-        Vector2 lookInput = inputManager.GetCameraLookInput();
+        Vector2 lookInput = InputManagerPlayer.GetCameraLookInput();
 
         float mouseX = lookInput.x * Time.deltaTime * senX;
         float mouseY = lookInput.y * Time.deltaTime * senY;
