@@ -2,37 +2,34 @@ using UnityEngine;
 
 public class PlayerMovement : Movement
 {
-    
-    void Start()
-    {
+    private void Awake() {
         SetDefaultState();
     }
 
-    void Update()
-    {
-        CameraMovement();
+    void Update(){}
+
+    private void FixedUpdate() {
         Move();
     }
 
     public override void Move() {
-        Vector2 movement = inputManager.GetMovementInput();
+        Vector2 movement = InputPlayerManager.GetMovementInput();
         Vector3 moveDirection = (movement.y * transform.forward) + (movement.x * transform.right);
-        transform.position = moveDirection * CalculateCurrentSpeed() * Time.deltaTime;
+        rb.AddForce(moveDirection.normalized * CalculateCurrentSpeed() * 10f, ForceMode.Force);
     }
 
     public override float CalculateCurrentSpeed() {
-        return currentSpeed = inputManager.GetSprintInput() ? runSpeed : walkSpeed;
+        return currentSpeed = InputPlayerManager.GetSprintInput() ? runSpeed : walkSpeed;
     }
 
     public override void SetDefaultState() {
         try{
             rb = GetComponent<Rigidbody>();
-            inputManager = GetComponent<InputManager>();
+            InputPlayerManager = GetComponent<InputManagerPlayer>();
             walkSpeed = 5;
             runSpeed = 7;
         }catch (System.Exception e) {
             Debug.LogError(e);
         }
     }
-
 }

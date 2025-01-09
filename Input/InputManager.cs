@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,45 +12,57 @@ public class InputManager : MonoBehaviour
     private void Awake() {
         GetUnityPlayerInputManager();
     }
+
     protected void GetPlayerInput() {
         try {
-        playerInput = GetComponent<PlayerInput>(); 
+            playerInput = GetComponent<PlayerInput>();
+            Debug.Log("true");
         } catch (System.Exception e) {
+            Debug.Log("false");
             Debug.LogError(e);
         }
     }
 
     protected void GetUnityPlayerInputManager() {
         try {
-            GetComponent<PlayerInputManager>(); 
+            playerInputManager = GetComponent<PlayerInputManager>(); 
         } catch (System.Exception e) {
             Debug.LogError(e);
         }
     }
 
-
-
-    protected Vector2 GetCameraLookInput() {
+    //--------------------Input Actions--------------------
+    public Vector2 GetCameraLookInput() {
         return playerInput.actions["Look"].ReadValue<Vector2>();
     }
 
-    protected Vector2 GetMovementInput() {
-        return playerInput.actions["Move"].ReadValue<Vector2>();
+    public Vector2 GetMovementInput() {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector2 movement = new Vector2(horizontalInput, verticalInput);
+        return movement;
     }
 
     public bool GetSprintInput() {
         return playerInput.actions["Sprint"].IsInProgress();
     }
-    protected bool GetJumpInput() {
+    public bool GetJumpInput() {
         return playerInput.actions["Jump"].WasPressedThisFrame();
     }
 
-    protected string GetInputType { get { return playerInput.currentControlScheme.ToString(); } }
 
-    protected string GetCurrentActionMap { get { return playerInput.currentActionMap.name; } }
+    //--------------------Debugging--------------------
+    public string GetInputType { get { return playerInput.currentControlScheme.ToString(); } }
 
-    protected void SwitchActionMap(string actionMap) {
+    public string GetCurrentActionMap { get { return playerInput.currentActionMap.name; } }
+
+    public void SwitchActionMap(string actionMap) {
         playerInput.SwitchCurrentActionMap(actionMap);
+    }
+
+    public void DebugDevices() {
+        Debug.Log(playerInput.devices);
     }
 
 }

@@ -14,7 +14,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake() {
         LockScreenCursor();
-        GameObject.Find("Player").GetComponent<InputManagerPlayer>();
+        InputManagerPlayer = GameObject.Find("Player").GetComponent<InputManagerPlayer>();
     }
 
     void Update()
