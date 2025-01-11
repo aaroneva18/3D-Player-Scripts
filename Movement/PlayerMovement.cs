@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerMovement : Movement
 {
+    [SerializeField] private Transform CameraTransform;
+
     private void Awake() {
         SetDefaultState();
     }
@@ -10,12 +12,18 @@ public class PlayerMovement : Movement
 
     private void FixedUpdate() {
         Move();
+        MatchRotation();
     }
 
     public override void Move() {
-        Vector2 movement = InputPlayerManager.GetMovementInput();
-        Vector3 moveDirection = (movement.y * transform.forward) + (movement.x * transform.right);
-        rb.AddForce(moveDirection.normalized * CalculateCurrentSpeed() * 10f, ForceMode.Force);
+        Vector2 input = InputPlayerManager.GetMovementInput();
+        Vector3 movement = (input.y * CameraTransform.forward) + (input.x * CameraTransform.right); 
+        Vector3 targetPosition = rb.position + movement * CalculateCurrentSpeed() * Time.deltaTime;
+        rb.MovePosition(targetPosition);
+    }
+
+    public void MatchRotation() {
+        transform.Rotate(transform.rotation.x, CameraTransform.rotation.y + transform.rotation.y, transform.rotation.z);
     }
 
     public override float CalculateCurrentSpeed() {
@@ -26,6 +34,7 @@ public class PlayerMovement : Movement
         try{
             rb = GetComponent<Rigidbody>();
             InputPlayerManager = GetComponent<InputManagerPlayer>();
+            if (CameraTransform == null) { GameObject.Find("Main Camera").GetComponent<Transform>(); }
             walkSpeed = 5;
             runSpeed = 7;
         }catch (System.Exception e) {

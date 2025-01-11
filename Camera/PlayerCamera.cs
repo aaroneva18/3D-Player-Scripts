@@ -5,7 +5,6 @@ public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private float senX;
     [SerializeField] private float senY;
-    [SerializeField] private Transform orientation;
     [SerializeField] private InputManagerPlayer InputManagerPlayer;
 
     private float xRotation;
@@ -13,8 +12,7 @@ public class PlayerCamera : MonoBehaviour
 
 
     private void Awake() {
-        LockScreenCursor();
-        InputManagerPlayer = GameObject.Find("Player").GetComponent<InputManagerPlayer>();
+        SetDefaultState();
     }
 
     void Update()
@@ -36,12 +34,20 @@ public class PlayerCamera : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.localRotation = Quaternion.Euler(0, yRotation, 0);
     }
 
     private void LockScreenCursor() {
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void SetDefaultState() {
+        LockScreenCursor();
+        try {
+            InputManagerPlayer = GameObject.Find("Player").GetComponent<InputManagerPlayer>();
+        } catch {
+            Debug.LogError("Error setting default state");
+        }
     }
 }

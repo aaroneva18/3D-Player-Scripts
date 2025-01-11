@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    protected PlayerInput playerInput;
+    public PlayerInput playerInput;
     protected InputAction lookAction;
     protected InputActionAsset inputActionAsset;
     protected PlayerInputManager playerInputManager;
+    
 
 
     private void Awake() {
