@@ -11,8 +11,12 @@ public class PlayerMovement : Movement
     void Update(){}
 
     private void FixedUpdate() {
-        Move();
-        MatchRotation();
+        if (isPlayable) {
+            if (CheckIsGrounded()) {
+                Move(); 
+                MatchRotation();
+            }
+        }
     }
 
     public override void Move() {

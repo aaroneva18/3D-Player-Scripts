@@ -8,13 +8,13 @@ public abstract class Movement : MonoBehaviour {
     [SerializeField] protected float walkSpeed = 0;
     [SerializeField] protected float runSpeed = 0;
     [SerializeField] protected float currentSpeed = 0;
-    [SerializeField] protected bool isGrounded = false;
     [SerializeField] protected Vector3 velocity;
     [SerializeField] protected Rigidbody rb = null;
     [SerializeField] protected LayerMask groundMask;
     [SerializeField] protected Transform feet;
     [SerializeField] protected float groundGizmoRadious;
 
+    [SerializeField] private bool isGrounded = false;
 
     protected InputManagerPlayer InputPlayerManager = null;
 
