@@ -1,9 +1,14 @@
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
-{
+public class PlayerManager : MonoBehaviour {
 
     public PlayerInventary inventary;
+    [SerializeField] private int health = 100;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private bool isAlive = true;
+    [SerializeField] private bool isDead = false;
+
+
 
     public void Awake() {
         SetDefaultState();
@@ -21,6 +26,10 @@ public class PlayerManager : MonoBehaviour
         
     }
 
+    public int GetHealth { get { return health; } }
+    public int GetMaxHealth { get { return maxHealth; } }
+    public bool GetIsAlive { get { return isAlive; } }
+    public bool GetIsDead { get { return isDead; } }
 
     private void SetDefaultState() {
         try {
