@@ -3,12 +3,13 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     public PlayerInventary inventary;
+
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private bool isAlive = true;
     [SerializeField] private bool isDead = false;
 
-
+    private PlayerMovement movement;
 
     public void Awake() {
         SetDefaultState();
@@ -31,10 +32,22 @@ public class PlayerManager : MonoBehaviour {
     public bool GetIsAlive { get { return isAlive; } }
     public bool GetIsDead { get { return isDead; } }
 
+    public void TakeDamage(int p_damage) {
+        if (p_damage >= maxHealth) { Dead(); }
+        health -= p_damage;
+        if (health <= 0) { Dead(); }
+    }
+
+    public void Dead() {
+        isAlive = false;
+        isDead = true;
+        movement.SetPlayable(false);
+    }   
+
     private void SetDefaultState() {
         try {
             inventary = GetComponent<PlayerInventary>();
-
+            movement = GetComponent<PlayerMovement>();
         } catch {
             Debug.LogError("Error setting default state");
         }

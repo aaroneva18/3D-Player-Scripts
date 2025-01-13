@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public abstract class Movement : MonoBehaviour {
 
-    public bool isPlayable;
+    private bool isPlayable;
 
     [SerializeField] protected float walkSpeed = 0;
     [SerializeField] protected float runSpeed = 0;
@@ -22,11 +22,15 @@ public abstract class Movement : MonoBehaviour {
     void Start(){}
     void Update(){}
 
+    public bool GetIsPlayable { get { return isPlayable; } }    
     public abstract void SetDefaultState();
     public abstract float CalculateCurrentSpeed();
     public abstract void Move();
     public bool CheckIsGrounded() {
         return isGrounded = Physics.CheckSphere(feet.position, groundGizmoRadious, groundMask);
+    }
+    public void SetPlayable(bool p_IsPlayable) {
+        isPlayable = p_IsPlayable;
     }
 
 }
