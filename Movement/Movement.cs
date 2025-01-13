@@ -3,19 +3,18 @@ using UnityEngine.InputSystem;
 
 public abstract class Movement : MonoBehaviour {
 
-    private bool isPlayable;
+    [SerializeField] private bool isPlayable;
+    [SerializeField] private bool isGrounded = false;
 
     [SerializeField] protected float walkSpeed = 0;
     [SerializeField] protected float runSpeed = 0;
     [SerializeField] protected float currentSpeed = 0;
+    [SerializeField] protected float groundGizmoRadious;
     [SerializeField] protected Vector3 velocity;
-    [SerializeField] protected Rigidbody rb = null;
     [SerializeField] protected LayerMask groundMask;
     [SerializeField] protected Transform feet;
-    [SerializeField] protected float groundGizmoRadious;
 
-    [SerializeField] private bool isGrounded = false;
-
+    protected Rigidbody rb = null;
     protected InputManagerPlayer InputPlayerManager = null;
 
     private void Awake(){}
@@ -31,6 +30,11 @@ public abstract class Movement : MonoBehaviour {
     }
     public void SetPlayable(bool p_IsPlayable) {
         isPlayable = p_IsPlayable;
+    }
+
+    public void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(feet.position, groundGizmoRadious);
     }
 
 }
