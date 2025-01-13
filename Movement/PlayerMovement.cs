@@ -11,7 +11,7 @@ public class PlayerMovement : Movement
     void Update(){}
 
     private void FixedUpdate() {
-        if (isPlayable) {
+        if (GetIsPlayable) {
             if (CheckIsGrounded()) {
                 Move(); 
                 MatchRotation();
@@ -39,6 +39,7 @@ public class PlayerMovement : Movement
             rb = GetComponent<Rigidbody>();
             InputPlayerManager = GetComponent<InputManagerPlayer>();
             if (CameraTransform == null) { GameObject.Find("Main Camera").GetComponent<Transform>(); }
+            SetPlayable(true);
             walkSpeed = 5;
             runSpeed = 7;
         }catch (System.Exception e) {
