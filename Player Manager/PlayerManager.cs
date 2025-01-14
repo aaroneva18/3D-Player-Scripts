@@ -38,6 +38,11 @@ public class PlayerManager : MonoBehaviour {
         if (health <= 0) { Dead(); }
     }
 
+    public void Heal(int p_heal) {
+        if (p_heal > maxHealth || (p_heal + health) > maxHealth) { health = maxHealth; }
+        health += p_heal;
+    }
+
     public void Dead() {
         isAlive = false;
         isDead = true;
