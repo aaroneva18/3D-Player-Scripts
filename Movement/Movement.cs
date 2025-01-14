@@ -9,6 +9,8 @@ public abstract class Movement : MonoBehaviour {
     [SerializeField] protected float walkSpeed = 0;
     [SerializeField] protected float runSpeed = 0;
     [SerializeField] protected float currentSpeed = 0;
+    [SerializeField] protected float stamina = 0;
+    [SerializeField] protected float maxStamina = 0;
     [SerializeField] protected float groundGizmoRadious;
     [SerializeField] protected Vector3 velocity;
     [SerializeField] protected LayerMask groundMask;
@@ -22,6 +24,9 @@ public abstract class Movement : MonoBehaviour {
     void Update(){}
 
     public bool GetIsPlayable { get { return isPlayable; } }    
+    public float GetCurrentSpeed { get { return currentSpeed; } }   
+    public float GetStamina { get { return stamina; } } 
+
     public abstract void SetDefaultState();
     public abstract float CalculateCurrentSpeed();
     public abstract void Move();
@@ -30,6 +35,16 @@ public abstract class Movement : MonoBehaviour {
     }
     public void SetPlayable(bool p_IsPlayable) {
         isPlayable = p_IsPlayable;
+    }
+
+    public void ReduceStamina(float ReducePoints) {
+        stamina -= ReducePoints;
+        if (stamina <= 0) { stamina = 0; }
+    }
+
+    public void IncreaseStamina(float IncreasePoints) {
+        if (stamina >= maxStamina) { stamina = maxStamina; }
+        stamina += IncreasePoints;
     }
 
     public void OnDrawGizmos() {
