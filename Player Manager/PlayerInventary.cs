@@ -3,22 +3,40 @@ using UnityEngine;
 
 public class PlayerInventary : MonoBehaviour
 {
-    Dictionary<string, GameObject> inventary;
+    private Dictionary<string, GameObject> inventary;
+    private InputManagerPlayer inputManagerPlayer;
 
-    // Start is called before the first frame update
+    private float RayLenght = 0.0f;
+    private Ray ray;
+
+    private void Awake() {
+        SetDefaultState();
+    }
+    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
     }
 
-    public void AddItem(string name, GameObject item) {
+    private void AddItemToDictionary(string name, GameObject item) {
         inventary.Add(name, item);
+    }
+
+    public void AddItemToInventary() {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, RayLenght)) {
+            if (hit.collider.CompareTag("Item")) {
+                AddItemToDictionary(hit.collider.name, hit.collider.gameObject);
+                hit.collider.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void RemoveItem(string name) {
@@ -33,6 +51,11 @@ public class PlayerInventary : MonoBehaviour
         return inventary.ContainsKey(name);
     }
 
+    private void SetDefaultState() {
+        inventary = new Dictionary<string, GameObject>();
+        inputManagerPlayer = GetComponent<InputManagerPlayer>();
+        RayLenght = 2.0f;
+    }
 
 
 }
