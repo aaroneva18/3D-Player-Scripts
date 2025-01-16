@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WalkState : State
+public class WalkState : IState
 {
     private PlayerMovement movement;
 

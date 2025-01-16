@@ -1,4 +1,4 @@
-public interface State 
+public interface IState 
 {
     public void Enter();
     public void Execute();
