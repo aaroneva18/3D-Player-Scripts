@@ -26,10 +26,6 @@ public class PlayerManager : MonoBehaviour {
         
     }
 
-    public void FixedUpdate() {
-        
-    }
-
     public int GetHealth { get { return health; } }
     public int GetMaxHealth { get { return maxHealth; } }
     public bool GetIsAlive { get { return isAlive; } }
@@ -52,11 +48,15 @@ public class PlayerManager : MonoBehaviour {
         movement.SetPlayable(false);
     }   
 
+    public void TeleportTo(Transform desirePosition) {
+        transform.position = desirePosition.position;
+    }
+
     private void SetDefaultState() {
         try {
             inventary = GetComponent<PlayerInventary>();
             movement = GetComponent<PlayerMovement>();
-            transform.position = InitialPlayerPosition.position;
+            //TeleportTo(InitialPlayerPosition);
         } catch {
             Debug.LogError("Error setting default state");
         }
