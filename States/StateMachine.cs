@@ -5,7 +5,12 @@ public class StateMachine : MonoBehaviour
     private IState CurrentState;
     private IState PreviousState;
     private IState NextState;
-    
+
+    private InputManagerPlayer inputManager;
+
+    private void Awake() {
+        SetDefalutState();
+    }
     void Start()
     {
         
@@ -13,11 +18,11 @@ public class StateMachine : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void FixedUpdate() {
-            
+        
     }
 
     public IState GetCurrentState { get { return CurrentState; } }
@@ -31,5 +36,12 @@ public class StateMachine : MonoBehaviour
         CurrentState.Enter();
     }
 
+    private void SetDefalutState() {
+        try {
+            inputManager = GetComponent<InputManagerPlayer>();
+        } catch {
+            Debug.LogError("Error setting SetDefaultState");
+        }
+    }
 
 }
