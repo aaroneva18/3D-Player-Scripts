@@ -5,10 +5,10 @@ public abstract class Movement : MonoBehaviour {
 
     [SerializeField] private bool isPlayable;
     [SerializeField] private bool isGrounded = false;
+    [SerializeField] private float currentSpeed = 0;
 
     [SerializeField] protected float walkSpeed = 0;
     [SerializeField] protected float runSpeed = 0;
-    [SerializeField] protected float currentSpeed = 0;
     [SerializeField] protected float stamina = 0;
     [SerializeField] protected float maxStamina = 0;
     [SerializeField] protected float groundGizmoRadious;
@@ -35,6 +35,9 @@ public abstract class Movement : MonoBehaviour {
     }
     public void SetPlayable(bool p_IsPlayable) {
         isPlayable = p_IsPlayable;
+    }
+    public void SetCurrentSpeed(float speed) {
+        currentSpeed = speed;
     }
 
     public void ReduceStamina(float ReducePoints) {
