@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     public PlayerInventary inventary;
+    public Transform InitialPlayerPosition;
 
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
@@ -15,15 +16,17 @@ public class PlayerManager : MonoBehaviour {
         SetDefaultState();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    public void FixedUpdate() {
         
     }
 
@@ -53,6 +56,7 @@ public class PlayerManager : MonoBehaviour {
         try {
             inventary = GetComponent<PlayerInventary>();
             movement = GetComponent<PlayerMovement>();
+            transform.position = InitialPlayerPosition.position;
         } catch {
             Debug.LogError("Error setting default state");
         }

@@ -1,61 +1,63 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerManager : MonoBehaviour {
+public class InputManager : MonoBehaviour
+{
+    public PlayerInput playerInput;
+    protected PlayerInputManager playerInputManager;
 
-    public PlayerInventary inventary;
-
-    [SerializeField] private int health = 100;
-    [SerializeField] private int maxHealth = 100;
-    [SerializeField] private bool isAlive = true;
-    [SerializeField] private bool isDead = false;
-
-    private PlayerMovement movement;
-
-    public void Awake() {
-        SetDefaultState();
+    private void Awake() {
+        GetUnityPlayerInputManager();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public int GetHealth { get { return health; } }
-    public int GetMaxHealth { get { return maxHealth; } }
-    public bool GetIsAlive { get { return isAlive; } }
-    public bool GetIsDead { get { return isDead; } }
-
-    public void TakeDamage(int p_damage) {
-        if (p_damage >= maxHealth) { Dead(); }
-        health -= p_damage;
-        if (health <= 0) { Dead(); }
-    }
-
-    public void Heal(int p_heal) {
-        if (p_heal > maxHealth || (p_heal + health) > maxHealth) { health = maxHealth; }
-        health += p_heal;
-    }
-
-    public void Dead() {
-        isAlive = false;
-        isDead = true;
-        movement.SetPlayable(false);
-    }   
-
-    private void SetDefaultState() {
+    protected void GetPlayerInput() {
         try {
-            inventary = GetComponent<PlayerInventary>();
-            movement = GetComponent<PlayerMovement>();
-        } catch {
-            Debug.LogError("Error setting default state");
+            playerInput = GetComponent<PlayerInput>();
+        } catch (System.Exception e) {
+            Debug.LogError(e);
         }
-        
     }
+
+    protected void GetUnityPlayerInputManager() {
+        try {
+            playerInputManager = GetComponent<PlayerInputManager>(); 
+        } catch (System.Exception e) {
+            Debug.LogError(e);
+        }
+    }
+
+    //--------------------Input Actions--------------------
+    public Vector2 GetCameraLookInput() {
+        return playerInput.actions["Look"].ReadValue<Vector2>();
+    }
+
+    public Vector2 GetMovementInput() {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector2 movement = new Vector2(horizontalInput, verticalInput);
+        return movement;
+    }
+
+    public bool GetSprintInput() {
+        return playerInput.actions["Sprint"].IsInProgress();
+    }
+    public bool GetJumpInput() {
+        return playerInput.actions["Jump"].WasPressedThisFrame();
+    }
+
+
+    //--------------------Debugging--------------------
+    public string GetInputType { get { return playerInput.currentControlScheme.ToString(); } }
+
+    public string GetCurrentActionMap { get { return playerInput.currentActionMap.name; } }
+
+    public void SwitchActionMap(string actionMap) {
+        playerInput.SwitchCurrentActionMap(actionMap);
+    }
+
+    public void DebugDevices() {
+        Debug.Log(playerInput.devices);
+    }
+
 }
