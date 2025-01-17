@@ -32,9 +32,9 @@ public class PlayerInventary : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, RayLenght)) {
-            if (hit.collider.CompareTag("Item")) {
+            if (inputManagerPlayer.GetCollectInput() && hit.collider.CompareTag("Item")) {
                 AddItemToDictionary(hit.collider.name, hit.collider.gameObject);
-                hit.collider.gameObject.SetActive(false);
+                hit.collider.gameObject.SetActive(false); //make the item disappear
             }
         }
     }

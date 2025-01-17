@@ -46,6 +46,10 @@ public class InputManager : MonoBehaviour
         return playerInput.actions["Jump"].WasPressedThisFrame();
     }
 
+    public bool GetCollectInput() {
+        return playerInput.actions["Collect"].WasPressedThisFrame();
+    }
+
 
     //--------------------Debugging--------------------
     public string GetInputType { get { return playerInput.currentControlScheme.ToString(); } }
