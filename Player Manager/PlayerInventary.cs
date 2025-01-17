@@ -28,7 +28,7 @@ public class PlayerInventary : MonoBehaviour
         inventary.Add(name, item);
     }
 
-    public void AddItemToInventary() {
+    public void CollectItemOnRaycastHit() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, RayLenght)) {
@@ -57,5 +57,9 @@ public class PlayerInventary : MonoBehaviour
         RayLenght = 2.0f;
     }
 
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(ray.origin, ray.direction * RayLenght);
+    }
 
 }
