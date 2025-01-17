@@ -60,6 +60,15 @@ public class InputManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap(actionMap);
     }
 
+    public string GetCurrentAction() {
+        foreach (var action in playerInput.currentActionMap.actions) {
+            if (action.IsInProgress()) {
+                return action.name;
+            }
+        }
+        return null;
+    }
+
     public void DebugDevices() {
         Debug.Log(playerInput.devices);
     }
