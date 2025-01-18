@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
@@ -18,21 +19,26 @@ public class StateMachine : MonoBehaviour
 
     void Update()
     {
+        
 
     }
 
     void FixedUpdate() {
         
+        CurrentState.FixedExecute();
     }
 
     public IState GetCurrentState { get { return CurrentState; } }
 
-    public void ChangeIState(IState p_state) {
-        if (CurrentState != null) {
-            CurrentState.Exit();
-        }
+    //TODO
+    public void Transition(IState from, IState to, Func<bool> condition) {
+    }
+
+    public void SetCurrentState(IState newState) {
+        if (CurrentState != null) { CurrentState.Exit(); }
         PreviousState = CurrentState;
-        CurrentState = p_state;
+        CurrentState = newState;
+
         CurrentState.Enter();
     }
 
