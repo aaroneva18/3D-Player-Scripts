@@ -3,16 +3,17 @@ using UnityEngine.InputSystem;
 
 public abstract class Movement : MonoBehaviour {
 
-    [SerializeField] private bool isPlayable;
+    [SerializeField] private bool isPlayable = false;
     [SerializeField] private bool isGrounded = false;
     [SerializeField] private float currentSpeed = 0;
 
+    [SerializeField] protected bool isMoving = false;
     [SerializeField] protected float walkSpeed = 0;
-    [SerializeField] protected float runSpeed = 0;
+    [SerializeField] protected float sprintSpeed = 0;
     [SerializeField] protected float stamina = 0;
     [SerializeField] protected float maxStamina = 0;
-    [SerializeField] protected float groundGizmoRadious;
-    [SerializeField] protected Vector3 velocity;
+    [SerializeField] protected float groundGizmoRadious = 0;
+    [SerializeField] protected Vector3 velocity = new Vector3();
     [SerializeField] protected LayerMask groundMask;
     [SerializeField] protected Transform feet;
 
@@ -24,12 +25,18 @@ public abstract class Movement : MonoBehaviour {
     void Update(){}
 
     public bool GetIsPlayable { get { return isPlayable; } }    
-    public float GetCurrentSpeed { get { return currentSpeed; } }   
+    public bool GetIsMoving { get { return CheckIsMoving(); } }
+    public bool GetIsGrounded { get { return CheckIsGrounded(); } }
+    public float GetCurrentSpeed { get { return currentSpeed; } } 
+    public float GetWalkSpeed { get { return walkSpeed; } }
+    public float GetSprintSpeed { get { return sprintSpeed; } }
     public float GetStamina { get { return stamina; } } 
 
     public abstract void SetDefaultState();
-    public abstract float CalculateCurrentSpeed();
     public abstract void Move();
+    public abstract void Jump();
+    public abstract float CalculateCurrentSpeed();
+    public abstract bool CheckIsMoving();
     public bool CheckIsGrounded() {
         return isGrounded = Physics.CheckSphere(feet.position, groundGizmoRadious, groundMask);
     }
