@@ -43,13 +43,16 @@ public class InputManager : MonoBehaviour
         return playerInput.actions["Sprint"].IsInProgress();
     }
     public bool GetJumpInput() {
-        return playerInput.actions["Jump"].WasPressedThisFrame();
+        return playerInput.actions["Jump"].WasPressedThisFrame();   
     }
 
     public bool GetCollectInput() {
         return playerInput.actions["Collect"].WasPressedThisFrame();
     }
-
+    
+    public bool GetInventaryInput() {
+        return playerInput.actions["Inventary"].WasPressedThisFrame();
+    }
 
     //--------------------Debugging--------------------
     public string GetInputType { get { return playerInput.currentControlScheme.ToString(); } }
@@ -60,14 +63,15 @@ public class InputManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap(actionMap);
     }
 
-    public string GetCurrentAction() {
+    public InputAction GetCurrentAction() {
         foreach (var action in playerInput.currentActionMap.actions) {
             if (action.IsInProgress()) {
-                return action.name;
+                return action;
             }
         }
         return null;
     }
+    
 
     public void DebugDevices() {
         Debug.Log(playerInput.devices);
