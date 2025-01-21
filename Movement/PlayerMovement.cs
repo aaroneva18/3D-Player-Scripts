@@ -24,19 +24,18 @@ public class PlayerMovement : Movement
     }
 
     public override void Jump() {
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        if (CheckIsGrounded() || GetIsPlayable) { 
-            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-            
+        if (CheckIsGrounded() && GetIsPlayable) {
+
+            Vector3 currentVelocity = rb.velocity;
+
+            rb.velocity = new Vector3(currentVelocity.x, 0, currentVelocity.z);
+
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
     
     public override bool CheckIsMoving() {
         return InputPlayerManager.GetMovementInput() != Vector2.zero ? true : false;
-    }
-
-    public void MatchRotation() {
-        transform.Rotate(transform.rotation.x, CameraTransform.rotation.y + transform.rotation.y, transform.rotation.z);
     }
 
     public override void SetDefaultState() {
