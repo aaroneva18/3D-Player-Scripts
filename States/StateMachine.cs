@@ -3,38 +3,24 @@ using System.Collections.Generic;
 using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.UI;
 
 public class StateMachine : MonoBehaviour
 {
     private IState CurrentState;
     private IState PreviousState;
 
-    private InputManagerPlayer inputManager;
-    private PlayerMovement playerMovement;
-    public List<Transition> transitions = new List<Transition>();
+    protected InputManagerPlayer inputManager;
+    protected PlayerMovement playerMovement;
+    protected List<Transition> transitions = new List<Transition>();
 
     private void Awake() {
         SetDefalutState();
     }
+
     void Start()
     {
-        WalkState walkState = new WalkState(playerMovement, inputManager, this);
-        IddleState iddleState = new IddleState(playerMovement, this, inputManager);
-        JumpState jumpState = new JumpState(playerMovement);
-        SprintState sprintState = new SprintState(playerMovement);
-
-        AddTransition(iddleState, walkState,() => playerMovement.GetIsMoving);
-
-        AddTransition(walkState, jumpState, () => inputManager.GetJumpInput());
-        AddTransition(walkState, sprintState, () => inputManager.GetSprintInput());
-
-        AddTransition(jumpState, walkState, () => playerMovement.GetIsMoving);
-        AddTransition(jumpState, iddleState, () => !playerMovement.GetIsMoving);
-
-        AddTransition(sprintState, walkState, () =>!inputManager.GetSprintInput());
-        AddTransition(sprintState, iddleState, () => !playerMovement.GetIsMoving);
-
-        SetState(iddleState);
+        
     }
 
     void Update()
@@ -45,7 +31,7 @@ public class StateMachine : MonoBehaviour
         }
         CurrentState?.Execute();
 
-        Debug.Log(CurrentState);
+        //Debug.Log(CurrentState);
     }
 
     void FixedUpdate() {
