@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StealthState : IState {
+
+    private PlayerMovement playerMovement;
+
+    public StealthState(PlayerMovement p_playerMovement) {
+        playerMovement = p_playerMovement;
+    }
     public void Enter() {
-        throw new System.NotImplementedException();
+        playerMovement.SetCurrentSpeed(3);
     }
 
     public void Execute() {
-        throw new System.NotImplementedException();
+        
+    }
+    public void FixedExecute() {
+        
     }
 
     public void Exit() {
-        throw new System.NotImplementedException();
+        
     }
 
-    public void FixedExecute() {
-        throw new System.NotImplementedException();
-    }
 }
