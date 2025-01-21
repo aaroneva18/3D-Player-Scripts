@@ -18,11 +18,6 @@ public class StateMachine : MonoBehaviour
         SetDefalutState();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         Transition transition = GetTransition();
