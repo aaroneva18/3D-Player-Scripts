@@ -32,9 +32,12 @@ public class PlayerInteractable : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLenght, interactableLayer)) {
             //Aqui deberia de mostar la UI
-            if (inputManger.GetCollectInput()) {
+            if (inputManger.GetCollectInput() && inventary.GetInventarySize < inventary.GetInventoryMaxSize) {
+                Debug.Log("Inventary size: " + inventary.GetInventarySize);
                 inventary.AddItemToInventary(hit.collider.gameObject.name, hit.collider.gameObject);
-                hit.collider.gameObject.SetActive(false); 
+                hit.collider.gameObject.SetActive(false);
+            } else if(inputManger.GetCollectInput() && inventary.GetInventarySize >= inventary.GetInventoryMaxSize) {
+                Debug.Log("Inventary is full");
             }
         }
     }
