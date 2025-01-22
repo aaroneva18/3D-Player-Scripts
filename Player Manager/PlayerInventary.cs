@@ -5,9 +5,7 @@ using UnityEngine.Rendering;
 public class PlayerInventary : MonoBehaviour
 {
     public SerializedDictionary<string, GameObject> Inventary;
-
-    private InputManagerPlayer inputManagerPlayer;
-
+    [SerializeField] private int MaxInventorySize = 0;
 
     private void Awake() {
         SetDefaultState();
@@ -18,6 +16,12 @@ public class PlayerInventary : MonoBehaviour
     void Update() {}
 
     public int GetInventarySize { get { return Inventary.Count; } }   
+    public int GetInventoryMaxSize { get { return MaxInventorySize; } }
+
+    public void SetMaxInventorySize(int size) {
+        MaxInventorySize = size;
+    }
+
     public GameObject GetItem(string name) {
         return Inventary[name];
     }
@@ -39,8 +43,11 @@ public class PlayerInventary : MonoBehaviour
     }
 
     private void SetDefaultState() {
-        Inventary = new SerializedDictionary<string, GameObject>();
-        inputManagerPlayer = GetComponent<InputManagerPlayer>();
+        try {
+            Inventary = new SerializedDictionary<string, GameObject>();
+        } catch {
+            Debug.LogError("Error setting default state at Player Inventary");
+        }
     }
 
 }
