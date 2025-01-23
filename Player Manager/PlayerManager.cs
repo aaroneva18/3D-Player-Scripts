@@ -5,6 +5,8 @@ public class PlayerManager : MonoBehaviour {
     public PlayerInventary inventary;
     public Transform InitialPlayerPosition;
 
+    //Crear una lista de checkpoints para que el jugador pueda regresar a ellos
+
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private bool isAlive = true;
@@ -50,6 +52,12 @@ public class PlayerManager : MonoBehaviour {
 
     public void TeleportTo(Transform desirePosition) {
         transform.position = desirePosition.position;
+    }
+
+    public void GetLastCheckPoint() {
+        /*
+         * Calcular la distancia con todos los checkpoints y determinar cual es el mas cercano
+         */
     }
 
     private void SetDefaultState() {
