@@ -21,11 +21,16 @@ Movement(folder):
 PlayerManager(folder):
   - PlayerInventary.cs
   - PlayerManager.cs
+  - PlayerInteractable.cs
 
 States(folder):
   - State.cs
   - StateMachine.cs
   - WalkState.cs
+  - IddleState.cs
+  - SprintState.cs
+  - JumpState.cs
+  - StealthState.cs
 
 *DISCLAIMER* 
 This project is CURRENTLY on DEVELOPMENT, however, the current files are in a really good point and are totally helpful to start programming a first-person player.
@@ -53,7 +58,7 @@ Camera(carpeta):
   - PlayerCamera.cs
 
 Input(carpeta):
-   - InputManager.css
+   - InputManager.cs
    - InputManagerPlayer.cs
 
 Movement(carpeta): 
@@ -63,11 +68,16 @@ Movement(carpeta):
 PlayerManager(carpeta):
   - PlayerInventary.cs
   - PlayerManager.cs
+  - PlayerInteractable.cs
 
 States(carpeta):
   - State.cs
   - StateMachine.cs
   - WalkState.cs
+  - IddleState.cs
+  - SprintState.cs
+  - JumpState.cs
+  - StealthState.cs
 
 *DISCLAIMER* 
 Este proyecto esta ACTUALMENTE en DESARROLLO, sin embargo, los archivos actuales están en un buen punto y son de total ayuda para empezar a programar un Player en primera persona.
