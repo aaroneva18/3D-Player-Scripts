@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
     public PlayerInventary inventary;
     public Transform InitialPlayerPosition;
+    public List<Transform> checkPoints;
 
     //Crear una lista de checkpoints para que el jugador pueda regresar a ellos
 
@@ -20,7 +22,7 @@ public class PlayerManager : MonoBehaviour {
 
     void Start()
     {
-        
+        //TeleportTo(GetLastCheckPoint());
     }
 
     void Update()
@@ -54,10 +56,20 @@ public class PlayerManager : MonoBehaviour {
         transform.position = desirePosition.position;
     }
 
-    public void GetLastCheckPoint() {
-        /*
-         * Calcular la distancia con todos los checkpoints y determinar cual es el mas cercano
-         */
+    public Transform GetLastCheckPoint() {
+        float NearnestDistance = 0;
+        float CurrentDistance = 0;
+        List<Transform> OrderCheckPoints = new List<Transform>();
+        NearnestDistance = Vector3.Distance(transform.position, checkPoints[0].position);
+        for (int i = 0; i < checkPoints.Count; i++) {
+            CurrentDistance = Vector3.Distance(transform.position, checkPoints[i].position);
+            if (CurrentDistance <= NearnestDistance) {
+                OrderCheckPoints.Add(checkPoints[i]);
+                NearnestDistance = CurrentDistance;
+            }
+        }
+        int finalCheckPoint =  OrderCheckPoints.Count - 1;
+        return OrderCheckPoints[finalCheckPoint];
     }
 
     private void SetDefaultState() {
