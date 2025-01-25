@@ -5,7 +5,10 @@ using UnityEngine.Rendering;
 public class PlayerInventary : MonoBehaviour
 {
     public SerializedDictionary<string, GameObject> Inventary;
+
+    [SerializeField] private GameObject InventaryPanel = null;
     [SerializeField] private int MaxInventorySize = 0;
+    
 
     private void Awake() {
         SetDefaultState();
@@ -42,9 +45,14 @@ public class PlayerInventary : MonoBehaviour
         return Inventary.ContainsKey(name);
     }
 
+    public void SetPanelActive(bool IsActive){
+        InventaryPanel.SetActive(IsActive);
+    }
+
     private void SetDefaultState() {
         try {
             Inventary = new SerializedDictionary<string, GameObject>();
+            InventaryPanel.SetPanelActive(false);
         } catch {
             Debug.LogError("Error setting default state at Player Inventary");
         }
