@@ -8,7 +8,9 @@ public class PlayerInventary : MonoBehaviour
 
     [SerializeField] private GameObject InventaryPanel = null;
     [SerializeField] private int MaxInventorySize = 0;
+    [SerializeField] bool IsPanelActive = false;
     
+    private InputManagerPlayer inputManger;
 
     private void Awake() {
         SetDefaultState();
@@ -16,7 +18,7 @@ public class PlayerInventary : MonoBehaviour
     
     void Start() {}
     
-    void Update() {}
+    void Update() { ActivePanelByInput(); }
 
     public int GetInventarySize { get { return Inventary.Count; } }   
     public int GetInventoryMaxSize { get { return MaxInventorySize; } }
@@ -47,10 +49,18 @@ public class PlayerInventary : MonoBehaviour
 
     public void SetPanelActive(bool IsActive){
         InventaryPanel.SetActive(IsActive);
+        IsPanelActive = IsActive;
+    }
+
+    public void ActivePanelByInput(){
+        if(inputManger.GetInventaryInput() && !IsPanelActive){
+            SetPanelActive(!IsPanelActive);
+        }
     }
 
     private void SetDefaultState() {
         try {
+            inputManger = GetComponent<InputManagerPlayer>();
             Inventary = new SerializedDictionary<string, GameObject>();
             InventaryPanel.SetPanelActive(false);
         } catch {
