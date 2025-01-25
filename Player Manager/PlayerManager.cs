@@ -57,15 +57,15 @@ public class PlayerManager : MonoBehaviour {
     }
 
     public Transform GetLastCheckPoint() {
-        float NearnestDistance = 0;
-        float CurrentDistance = 0;
+        float NearestDistance = 0;
+        float ClosestCheckPoint = 0;
         List<Transform> OrderCheckPoints = new List<Transform>();
-        NearnestDistance = Vector3.Distance(transform.position, checkPoints[0].position);
+        NearestDistance = Vector3.Distance(transform.position, checkPoints[0].position);
         for (int i = 0; i < checkPoints.Count; i++) {
-            CurrentDistance = Vector3.Distance(transform.position, checkPoints[i].position);
-            if (CurrentDistance <= NearnestDistance) {
+            ClosestCheckPoint = Vector3.Distance(transform.position, checkPoints[i].position);
+            if (ClosestCheckPoint <= NearestDistance) {
                 OrderCheckPoints.Add(checkPoints[i]);
-                NearnestDistance = CurrentDistance;
+                NearestDistance = ClosestCheckPoint;
             }
         }
         int finalCheckPoint =  OrderCheckPoints.Count - 1;
