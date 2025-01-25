@@ -52,7 +52,11 @@ public class PlayerManager : MonoBehaviour {
         movement.SetPlayable(false);
     }   
 
-    public void TeleportTo(Transform desirePosition) {
+    public void TeleportTo(Transform desiredPosition) {
+        if(desiredPosition == null){ 
+            Debug.Warning("Desire Position is null"); 
+            return;
+        }
         transform.position = desirePosition.position;
     }
 
