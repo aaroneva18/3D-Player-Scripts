@@ -2,25 +2,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class PlayerInventary : MonoBehaviour
-{
+public class PlayerInventary : MonoBehaviour {
     public SerializedDictionary<string, GameObject> Inventary;
 
     [SerializeField] private GameObject InventaryPanel = null;
     [SerializeField] private int MaxInventorySize = 0;
     [SerializeField] bool IsPanelActive = false;
-    
+
     private InputManagerPlayer inputManger;
 
     private void Awake() {
         SetDefaultState();
     }
-    
-    void Start() {}
-    
+
+    void Start() { }
+
     void Update() { ActivePanelByInput(); }
 
-    public int GetInventarySize { get { return Inventary.Count; } }   
+    public int GetInventarySize { get { return Inventary.Count; } }
     public int GetInventoryMaxSize { get { return MaxInventorySize; } }
 
     public void SetMaxInventorySize(int size) {
@@ -47,13 +46,13 @@ public class PlayerInventary : MonoBehaviour
         return Inventary.ContainsKey(name);
     }
 
-    public void SetPanelActive(bool IsActive){
+    public void SetPanelActive(bool IsActive) {
         InventaryPanel.SetActive(IsActive);
         IsPanelActive = IsActive;
     }
 
-    public void ActivePanelByInput(){
-        if(inputManger.GetInventaryInput() && !IsPanelActive){
+    public void ActivePanelByInput() {
+        if (inputManger.GetInventaryInput() && !IsPanelActive) {
             SetPanelActive(!IsPanelActive);
         }
     }
@@ -62,7 +61,7 @@ public class PlayerInventary : MonoBehaviour
         try {
             inputManger = GetComponent<InputManagerPlayer>();
             Inventary = new SerializedDictionary<string, GameObject>();
-            InventaryPanel.SetPanelActive(false);
+            SetPanelActive(false);
         } catch {
             Debug.LogError("Error setting default state at Player Inventary");
         }
