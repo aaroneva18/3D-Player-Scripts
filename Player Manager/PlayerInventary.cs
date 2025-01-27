@@ -52,9 +52,12 @@ public class PlayerInventary : MonoBehaviour {
     }
 
     public void ActivePanelByInput() {
-        if (inputManger.GetInventaryInput() && !IsPanelActive) {
-            SetPanelActive(!IsPanelActive);
-        }
+        if (inputManger.GetInventaryInput()) {
+            if (IsPanelActive) { SetPanelActive(false); } 
+            else { SetPanelActive(true); }
+
+        } 
+        //Mejor hacer un script que sea un state de abrir el inventario
     }
 
     private void SetDefaultState() {
