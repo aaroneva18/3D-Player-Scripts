@@ -18,11 +18,6 @@ public class PlayerInteractable : MonoBehaviour
         SetDefaultState();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         InteractWithItem();
@@ -37,7 +32,7 @@ public class PlayerInteractable : MonoBehaviour
             if (inputManger.GetCollectInput() && inventary.GetInventarySize < inventary.GetInventoryMaxSize) {
                 inventary.AddItemToInventary(hit.collider.gameObject.name, hit.collider.gameObject);
                 if (IsRigthHandEmpty) {
-                   PutObjectOnRigthHand(hit.collider.gameObject);
+                   PutObjectOnRightHand(hit.collider.gameObject);
                 } 
             } 
             else if(inputManger.GetCollectInput() && inventary.GetInventarySize >= inventary.GetInventoryMaxSize) {
@@ -46,7 +41,7 @@ public class PlayerInteractable : MonoBehaviour
         }
     }
 
-    private void PutObjectOnRigthHand(GameObject p_object) {
+    private void PutObjectOnRightHand(GameObject p_object) {
         p_object.GetComponent<Rigidbody>().isKinematic = true;
         //Mejorar el como se pone la posicion del objeto en la mano y la rotacion
         p_object.transform.position = RigthHand.position;
