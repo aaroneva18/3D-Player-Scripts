@@ -21,6 +21,7 @@ public class PlayerInventary : MonoBehaviour {
 
     public int GetInventarySize { get { return Inventary.Count; } }
     public int GetInventoryMaxSize { get { return MaxInventorySize; } }
+    public bool GetIsPanelActive { get { return IsPanelActive; } }
 
     public void SetMaxInventorySize(int size) {
         MaxInventorySize = size;
