@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class CharacterManager : MonoBehaviour
@@ -17,10 +15,9 @@ public abstract class CharacterManager : MonoBehaviour
     public bool GetIsAlive { get { return isAlive; } }
     public bool GetIsDead { get { return isDead; } }
 
+    public abstract void Spawn();
     public abstract void Dead();
-
     public abstract void Respawn();
-
     public abstract void SetDefaultState();
 
     public void TakeDamage(int p_damage) {
@@ -33,8 +30,8 @@ public abstract class CharacterManager : MonoBehaviour
         if (p_heal > maxHealth || (p_heal + health) > maxHealth) { health = maxHealth; }
         health += p_heal;
     }
+
     public void TeleportTo(Transform desirePosition) {
         transform.position = desirePosition.position;
     }
-
 }
