@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 public class PlayerInventary : MonoBehaviour {
-    public SerializedDictionary<string, GameObject> Inventary;
+    public SerializedDictionary<string, GameObject> Inventory;
 
     [SerializeField] private GameObject InventaryPanel = null;
     [SerializeField] private int MaxInventorySize = 0;
@@ -19,8 +19,8 @@ public class PlayerInventary : MonoBehaviour {
 
     void Update() { }
 
-    public int GetInventarySize { get { return Inventary.Count; } }
-    public int GetInventoryMaxSize { get { return MaxInventorySize; } }
+    public int GetSize { get { return Inventory.Count; } }
+    public int GetMaxSize { get { return MaxInventorySize; } }
     public bool GetIsPanelActive { get { return IsPanelActive; } }
 
     public void SetMaxInventorySize(int size) {
@@ -28,23 +28,23 @@ public class PlayerInventary : MonoBehaviour {
     }
 
     public GameObject GetItem(string name) {
-        return Inventary[name];
+        return Inventory[name];
     }
 
-    public void AddItemToInventary(string name, GameObject item) {
-        Inventary.Add(name, item);
+    public void AddItemToInventory(string name, GameObject item) {
+        Inventory.Add(name, item);
     }
 
     public void RemoveItem(string name) {
-        Inventary.Remove(name);
+        Inventory.Remove(name);
     }
 
     public void ClearInventary() {
-        Inventary.Clear();
+        Inventory.Clear();
     }
 
     public bool HasItem(string name) {
-        return Inventary.ContainsKey(name);
+        return Inventory.ContainsKey(name);
     }
 
     public void SetPanelActive(bool IsActive) {
@@ -56,7 +56,7 @@ public class PlayerInventary : MonoBehaviour {
     private void SetDefaultState() {
         try {
             inputManger = GetComponent<InputManagerPlayer>();
-            Inventary = new SerializedDictionary<string, GameObject>();
+            Inventory = new SerializedDictionary<string, GameObject>();
             SetPanelActive(false);
         } catch {
             Debug.LogError("Error setting default state at Player Inventary");
