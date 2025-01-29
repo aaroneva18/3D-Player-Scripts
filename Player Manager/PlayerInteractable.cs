@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum InteractableType {
+    Collectable,
+    Usable,
+    None
+}
+
 public class PlayerInteractable : MonoBehaviour
 {
-    private PlayerInventary inventary;
-    private InputManagerPlayer inputManger;
+    private PlayerInventary inventory;
+    private InputManagerPlayer inputManager;
     private Ray ray;
 
-    [SerializeField] private float RayLenght = 0.0f;
+    [SerializeField] private float RayLength = 0.0f;
     [SerializeField] private bool IsRightHandEmpty = true;
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private Transform CameraTransform;
@@ -24,26 +30,40 @@ public class PlayerInteractable : MonoBehaviour
     }
 
     private void InteractWithItem() {
-        Debug.DrawRay(CameraTransform.position, CameraTransform.forward * RayLenght, Color.red);
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(CameraTransform.position, CameraTransform.forward * RayLength, Color.red);
+
         RaycastHit hit;
-        if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLenght, interactableLayer)) {
-            //Aqui deberia de mostar la UI
-            if (inputManger.GetCollectInput() && inventary.GetInventarySize < inventary.GetInventoryMaxSize) {
-                inventary.AddItemToInventary(hit.collider.gameObject.name, hit.collider.gameObject);
-                if (IsRightHandEmpty) {
-                    PutObjectOnRightHand(hit.collider.gameObject);
-                } 
-            } 
-            else if(inputManger.GetCollectInput() && inventary.GetInventarySize >= inventary.GetInventoryMaxSize) {
-                Debug.Log("Inventary is full");
-            }
+        if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLength, interactableLayer)) {
+            ShowUI();
+            StoreItem(hit.collider);
         }
+    }
+
+    public void StoreItem(Collider item) {
+        bool canCollect = inputManager.GetCollectInput();
+        bool hasSpace = inventory.GetSize < inventory.GetMaxSize;
+
+        if (canCollect && hasSpace) {
+            inventory.AddItemToInventory(item.gameObject.name, item.gameObject);
+
+            if (IsRightHandEmpty) {
+                PutObjectOnRightHand(item.gameObject);
+            } else {
+                item.gameObject.SetActive(false);
+            }
+        } else if (canCollect && !hasSpace) {
+            Debug.Log("Inventory is full");
+        }
+    }
+
+    public void ShowUI() {
+
     }
 
     private void PutObjectOnRightHand(GameObject p_object) {
         if (p_object == null || RightHand == null) { return; }
 
+        IsRightHandEmpty = false;
         Rigidbody rb = p_object.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.isKinematic = true;
@@ -58,8 +78,8 @@ public class PlayerInteractable : MonoBehaviour
 
     private void SetDefaultState() {
         try {
-            inventary = GetComponent<PlayerInventary>();
-            inputManger = GetComponent<InputManagerPlayer>();
+            inventory = GetComponent<PlayerInventary>();
+            inputManager = GetComponent<InputManagerPlayer>();
         } catch {
             Debug.LogError("Error setting default state at Player Interactable");
         }
