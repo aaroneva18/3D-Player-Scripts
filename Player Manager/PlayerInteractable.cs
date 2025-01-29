@@ -9,10 +9,10 @@ public class PlayerInteractable : MonoBehaviour
     private Ray ray;
 
     [SerializeField] private float RayLenght = 0.0f;
-    [SerializeField] private bool IsRigthHandEmpty = true;
+    [SerializeField] private bool IsRightHandEmpty = true;
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private Transform CameraTransform;
-    [SerializeField] private Transform RigthHand;
+    [SerializeField] private Transform RightHand;
 
     private void Awake() {
         SetDefaultState();
@@ -31,8 +31,8 @@ public class PlayerInteractable : MonoBehaviour
             //Aqui deberia de mostar la UI
             if (inputManger.GetCollectInput() && inventary.GetInventarySize < inventary.GetInventoryMaxSize) {
                 inventary.AddItemToInventary(hit.collider.gameObject.name, hit.collider.gameObject);
-                if (IsRigthHandEmpty) {
-                   PutObjectOnRightHand(hit.collider.gameObject);
+                if (IsRightHandEmpty) {
+                    PutObjectOnRightHand(hit.collider.gameObject);
                 } 
             } 
             else if(inputManger.GetCollectInput() && inventary.GetInventarySize >= inventary.GetInventoryMaxSize) {
@@ -42,10 +42,18 @@ public class PlayerInteractable : MonoBehaviour
     }
 
     private void PutObjectOnRightHand(GameObject p_object) {
-        p_object.GetComponent<Rigidbody>().isKinematic = true;
-        //Mejorar el como se pone la posicion del objeto en la mano y la rotacion
-        p_object.transform.position = RigthHand.position;
-        p_object.transform.SetParent(RigthHand);
+        if (p_object == null || RightHand == null) { return; }
+
+        Rigidbody rb = p_object.GetComponent<Rigidbody>();
+        if (rb != null) {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+
+        //agregar la rotacion de la camara
+        p_object.transform.SetParent(RightHand); 
+        p_object.transform.localPosition = Vector3.zero; 
+        p_object.transform.localRotation = Quaternion.identity;
     }
 
     private void SetDefaultState() {
