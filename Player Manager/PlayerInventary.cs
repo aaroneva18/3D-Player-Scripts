@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 public class PlayerInventary : MonoBehaviour {
     public SerializedDictionary<string, GameObject> Inventory;
 
-    [SerializeField] private GameObject InventaryPanel = null;
+    [SerializeField] private GameObject InventoryPanel = null;
     [SerializeField] private int MaxInventorySize = 0;
     [SerializeField] bool IsPanelActive = false;
 
@@ -48,7 +48,7 @@ public class PlayerInventary : MonoBehaviour {
     }
 
     public void SetPanelActive(bool IsActive) {
-        InventaryPanel.SetActive(IsActive);
+        InventoryPanel.SetActive(IsActive);
         IsPanelActive = IsActive;
     }
 
