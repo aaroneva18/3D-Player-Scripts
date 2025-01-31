@@ -13,7 +13,7 @@ public class PlayerManager : CharacterManager {
     }
 
     public override void Spawn() {
-        TeleportTo(InitialCharacterPosition);
+        movement.TeleportTo(InitialCharacterPosition);
         Heal(maxHealth);
         isAlive = true;
         isDead = false;
@@ -27,7 +27,7 @@ public class PlayerManager : CharacterManager {
     }   
 
     public override void Respawn() {
-        TeleportTo(GetLastCheckPoint());
+        movement.TeleportTo(GetLastCheckPoint());
         Heal(maxHealth);
         isAlive = true;
         isDead = false;
