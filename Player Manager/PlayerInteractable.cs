@@ -41,6 +41,7 @@ public class PlayerInteractable : MonoBehaviour
         if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLength, interactableLayer)) {
             ShowUI();
             StoreItem(hit.collider);
+            InteractWithItem(hit.collider);
         }
     }
 
@@ -53,17 +54,13 @@ public class PlayerInteractable : MonoBehaviour
             Debug.Log("Item collected: " + item.name);
 
             if (IsRightHandEmpty) {
-                PutObjectOnHand(LeftHand, item.gameObject, false);
+                PutObjectOnHand(RightHand, item.gameObject, true);
             } else {
                 item.gameObject.SetActive(false);
             }
         } else if (canCollect && !hasSpace) {
             Debug.Log("Inventory is full");
         }
-    }
-
-    public void ShowUI() {
-
     }
 
     private void PutObjectOnHand(Transform p_hand, GameObject p_object, bool IsRightHand) {
@@ -93,6 +90,12 @@ public class PlayerInteractable : MonoBehaviour
         }
 
     }
+
+    public void InteractWithItem(Collider item) {
+        // Check if the item is usable and if the player is pressing the use button
+    }
+
+    public void ShowUI() { }
 
     private void SetDefaultState() {
         try {
