@@ -8,13 +8,17 @@ public class PlayerDetectable : MonoBehaviour
     [SerializeField] float MaxDetectionRadius = 0;
 
 
-    // Start is called before the first frame update
+    private PlayerMovement playerMovement;
+
+    private void Awake() {
+        SetDefaultState();
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -22,8 +26,18 @@ public class PlayerDetectable : MonoBehaviour
 
     public float GetDetectionRadius { get { return detectionRadius; } }
 
-    public void IncreaseDetectionRadious() {}
-    public void DecreaseDetectionRadious() {}
+    public void ChangeDetectionRadius() {
 
+    }
+    public void IncreaseDetectionRadious(float increasePoints) {}
+    public void DecreaseDetectionRadious(float decreasePoints) {}
+
+    private void SetDefaultState() {
+        try {
+            playerMovement = GetComponent<PlayerMovement>();
+        } catch (System.Exception e) {
+            Debug.LogError(e);
+        }
+    }
 
 }
