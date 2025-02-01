@@ -46,10 +46,14 @@ public class PlayerInteractable : MonoBehaviour
     }
 
     public void StoreItem(Collider item) {
+        if(!item.CompareTag("Collectable")){ return; } //<- hacer que sea un tipo del enum
+
         bool canCollect = inputManager.GetCollectInput();
+        if(!canCollect){ return; }
+
         bool hasSpace = inventory.GetSize < inventory.GetMaxSize;
 
-        if (canCollect && hasSpace) {
+        if (hasSpace) {
             inventory.AddItemToInventory(item.name, item.gameObject);
             Debug.Log("Item collected: " + item.name);
 
@@ -93,6 +97,12 @@ public class PlayerInteractable : MonoBehaviour
 
     public void InteractWithItem(Collider item) {
         // Check if the item is usable and if the player is pressing the use button
+        if(inputManager.CompareTag("Usable")){ return; }
+
+        bool canUseItem; //= inputManager.GetInteractInput(); 
+        if(!canUseItem){ return; }
+
+        //Item.Action.Execute();
     }
 
     public void ShowUI() { }
