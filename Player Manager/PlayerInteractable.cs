@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public enum InteractableType {
@@ -8,8 +9,7 @@ public enum InteractableType {
     None
 }
 
-public class PlayerInteractable : MonoBehaviour
-{
+public class PlayerInteractable : MonoBehaviour {
     private PlayerInventary inventory;
     private InputManagerPlayer inputManager;
     private Ray ray;
@@ -26,8 +26,7 @@ public class PlayerInteractable : MonoBehaviour
         SetDefaultState();
     }
 
-    void Update()
-    {
+    void Update() {
         InteractWithItem();
     }
 
@@ -46,10 +45,10 @@ public class PlayerInteractable : MonoBehaviour
     }
 
     public void StoreItem(Collider item) {
-        if(!item.CompareTag("Collectable")){ return; } //<- hacer que sea un tipo del enum
+        if (inputManager.GetComponent<ObjectsData>().GetInteractableType != InteractableType.Collectable) { return; } 
 
         bool canCollect = inputManager.GetCollectInput();
-        if(!canCollect){ return; }
+        if (!canCollect) { return; }
 
         bool hasSpace = inventory.GetSize < inventory.GetMaxSize;
 
@@ -83,8 +82,8 @@ public class PlayerInteractable : MonoBehaviour
             c.enabled = false;
         }
 
-        p_object.transform.SetParent(p_hand); 
-        p_object.transform.localPosition = Vector3.zero; 
+        p_object.transform.SetParent(p_hand);
+        p_object.transform.localPosition = Vector3.zero;
         p_object.transform.localRotation = Quaternion.identity;
 
         if (IsRightHand) {
@@ -96,13 +95,12 @@ public class PlayerInteractable : MonoBehaviour
     }
 
     public void InteractWithItem(Collider item) {
-        // Check if the item is usable and if the player is pressing the use button
-        if(inputManager.CompareTag("Usable")){ return; }
+        if (inputManager.GetComponent<ObjectsData>().GetInteractableType != InteractableType.Usable) { return; }
 
-        bool canUseItem; //= inputManager.GetInteractInput(); 
-        if(!canUseItem){ return; }
+        bool canUseItem = inputManager.GetInteractInput(); 
+        if (!canUseItem) { return; }
 
-        //Item.Action.Execute();
+        item.GetComponent<Action>().ExcecuteAction();
     }
 
     public void ShowUI() { }

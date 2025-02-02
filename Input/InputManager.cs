@@ -50,8 +50,16 @@ public class InputManager : MonoBehaviour
         return playerInput.actions["Collect"].WasPressedThisFrame();
     }
     
+    public bool GetInteractInput() {
+        return playerInput.actions["Interact"].WasPressedThisFrame();
+    }
+
     public bool GetInventaryInput() {
         return playerInput.actions["Inventary"].WasPressedThisFrame();
+    }
+
+    public bool GetStealthInput() {
+        return playerInput.actions["Stealth"].WasPressedThisFrame();
     }
 
     //--------------------Debugging--------------------
