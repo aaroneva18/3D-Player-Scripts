@@ -39,13 +39,13 @@ public class PlayerInteractable : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLength, interactableLayer)) {
             ShowUI();
-            StoreItem(hit.collider);
+            StoreItem(hit.collider);    
             InteractWithItem(hit.collider);
         }
     }
 
     public void StoreItem(Collider item) {
-        if (inputManager.GetComponent<ObjectsData>().GetInteractableType != InteractableType.Collectable) { return; } 
+        if (item.GetComponent<ObjectManager>().GetInteractableType != InteractableType.Collectable) { return; } 
 
         bool canCollect = inputManager.GetCollectInput();
         if (!canCollect) { return; }
@@ -61,7 +61,7 @@ public class PlayerInteractable : MonoBehaviour {
             } else {
                 item.gameObject.SetActive(false);
             }
-        } else if (canCollect && !hasSpace) {
+        } else if (!hasSpace) {
             Debug.Log("Inventory is full");
         }
     }
@@ -95,12 +95,15 @@ public class PlayerInteractable : MonoBehaviour {
     }
 
     public void InteractWithItem(Collider item) {
-        if (inputManager.GetComponent<ObjectsData>().GetInteractableType != InteractableType.Usable) { return; }
-
+        if (item.GetComponent<ObjectManager>().GetInteractableType != InteractableType.Usable) { return; }
+        Debug.Log("Interacting with item: " + item.name);
         bool canUseItem = inputManager.GetInteractInput(); 
         if (!canUseItem) { return; }
 
-        item.GetComponent<Action>().ExcecuteAction();
+        if (canUseItem) {
+            item.GetComponent<Action>().ExcecuteAction();
+        }
+
     }
 
     public void ShowUI() { }
@@ -114,3 +117,4 @@ public class PlayerInteractable : MonoBehaviour {
         }
     }
 }
+
