@@ -1,15 +1,19 @@
 
+using UnityEngine;
+
 public class PlayerStateMachine : StateMachine
 {
 
     private InputManagerPlayer inputManager;
     private PlayerMovement playerMovement;
     private PlayerInventary playerInventary;
+    private Animator animator;
 
     private void Awake() {
         inputManager = GetComponent<InputManagerPlayer>();
         playerMovement = GetComponent<PlayerMovement>();
         playerInventary = GetComponent<PlayerInventary>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -18,7 +22,7 @@ public class PlayerStateMachine : StateMachine
         IddleState iddleState = new IddleState(playerMovement, this, inputManager);
         JumpState jumpState = new JumpState(playerMovement);
         SprintState sprintState = new SprintState(playerMovement);
-        StealthState stealthState = new StealthState(playerMovement);
+        StealthState stealthState = new StealthState(playerMovement, animator);
         InventaryState inventaryState = new InventaryState(playerInventary, playerMovement, inputManager);
 
         AddTransition(iddleState, walkState, () => playerMovement.GetIsMoving);
