@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public enum InteractableType {
@@ -45,25 +42,31 @@ public class PlayerInteractable : MonoBehaviour {
     }
 
     public void StoreItem(Collider item) {
-        if (item.GetComponent<ObjectManager>().GetInteractableType != InteractableType.Collectable) { return; } 
-
-        bool canCollect = inputManager.GetCollectInput();
-        if (!canCollect) { return; }
 
         bool hasSpace = inventory.GetSize < inventory.GetMaxSize;
-
-        if (hasSpace) {
+        if (hasSpace && StoreItemRequirements(item)) {
             inventory.AddItemToInventory(item.name, item.gameObject);
             Debug.Log("Item collected: " + item.name);
 
             if (IsRightHandEmpty) {
                 PutObjectOnHand(RightHand, item.gameObject, true);
+                item.GetComponent<Action>().ExcecuteAction(); //<- - make a input to activate the item action
             } else {
                 item.gameObject.SetActive(false);
             }
         } else if (!hasSpace) {
             Debug.Log("Inventory is full");
         }
+    }
+
+    public bool StoreItemRequirements(Collider item) {
+        if (item == null) { return false; }
+        if (!item.TryGetComponent<ObjectManager>(out var objManager)) { return false; }
+        if (item.GetComponent<ObjectManager>().GetInteractableType != InteractableType.Collectable) { return false; }
+        bool canCollect = inputManager.GetCollectInput();
+        if (!canCollect) { return false; }
+        return true;
+
     }
 
     private void PutObjectOnHand(Transform p_hand, GameObject p_object, bool IsRightHand) {
@@ -107,6 +110,10 @@ public class PlayerInteractable : MonoBehaviour {
     }
 
     public void ShowUI() { }
+
+    public void ActivateItemAction(Collider item) {
+
+    }
 
     private void SetDefaultState() {
         try {
