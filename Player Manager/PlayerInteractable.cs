@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public enum InteractableType {
     Collectable,
@@ -18,6 +19,8 @@ public class PlayerInteractable : MonoBehaviour {
     [SerializeField] private Transform CameraTransform;
     [SerializeField] private Transform RightHand;
     [SerializeField] private Transform LeftHand;
+    [SerializeField] private Collider GrabbedObjectInRightHand;
+    [SerializeField] private Collider GrabbedObjectInLeftHand;
 
     private void Awake() {
         SetDefaultState();
@@ -25,6 +28,7 @@ public class PlayerInteractable : MonoBehaviour {
 
     void Update() {
         InteractWithItem();
+        PerformObjectAction(GrabbedObjectInRightHand);
     }
 
     public bool GetIsRightHandEmpty { get { return IsRightHandEmpty; } }
@@ -47,17 +51,20 @@ public class PlayerInteractable : MonoBehaviour {
         if (hasSpace && StoreItemRequirements(item)) {
             inventory.AddItemToInventory(item.name, item.gameObject);
             Debug.Log("Item collected: " + item.name);
-
-            if (IsRightHandEmpty) {
-                PutObjectOnHand(RightHand, item.gameObject, true);
-                item.GetComponent<Action>().ExcecuteAction(); //<- - make a input to activate the item action
-            } else {
-                item.gameObject.SetActive(false);
-            }
+            PutObjectOnRightHand(item.gameObject);
         } else if (!hasSpace) {
             Debug.Log("Inventory is full");
         }
     }
+
+    public void PerformObjectAction(Collider item) {
+        if (GrabbedObjectInRightHand == null || !IsRightHandEmpty) { return; }
+        if (inputManager.GetUseInput() ) {
+            item.GetComponent<Action>().ExcecuteAction();
+        }
+    }
+
+    
 
     public bool StoreItemRequirements(Collider item) {
         if (item == null) { return false; }
@@ -69,13 +76,9 @@ public class PlayerInteractable : MonoBehaviour {
 
     }
 
-    private void PutObjectOnHand(Transform p_hand, GameObject p_object, bool IsRightHand) {
-        if (p_object == null || p_hand == null) { return; }
-
-        if ((IsRightHand && !IsRightHandEmpty) || (!IsRightHand && !IsLeftHandEmpty)) {
-            Debug.Log("Hand is not empty");
-            return;
-        }
+    private void PutObjectOnRightHand(GameObject p_object) {
+        if (p_object == null || RightHand == null) { return; }
+        if (!IsRightHandEmpty || p_object.GetComponent<ObjectManager>().GetInteractableType != InteractableType.Collectable) { return; }
 
         Rigidbody rb = p_object.GetComponent<Rigidbody>();
         Collider c = p_object.GetComponent<Collider>();
@@ -85,16 +88,29 @@ public class PlayerInteractable : MonoBehaviour {
             c.enabled = false;
         }
 
-        p_object.transform.SetParent(p_hand);
+        p_object.transform.SetParent(RightHand);
         p_object.transform.localPosition = Vector3.zero;
         p_object.transform.localRotation = Quaternion.identity;
+        GrabbedObjectInRightHand = p_object.GetComponent<Collider>();
+        IsLeftHandEmpty = false;
+    }
 
-        if (IsRightHand) {
-            IsRightHandEmpty = false;
-        } else {
-            IsLeftHandEmpty = false;
+    private void PutObjectOnLeftHand(GameObject p_object) {
+        if (p_object == null || LeftHand == null) { return; }
+        if (!IsLeftHandEmpty) { return; }
+        Rigidbody rb = p_object.GetComponent<Rigidbody>();
+        Collider c = p_object.GetComponent<Collider>();
+
+        if (rb != null && c != null) {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+            c.enabled = false;
         }
 
+        p_object.transform.SetParent(LeftHand);
+        p_object.transform.localPosition = Vector3.zero;
+        p_object.transform.localRotation = Quaternion.identity;
+        IsLeftHandEmpty = false;
     }
 
     public void InteractWithItem(Collider item) {
