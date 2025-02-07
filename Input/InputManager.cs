@@ -54,6 +54,10 @@ public class InputManager : MonoBehaviour
         return playerInput.actions["Interact"].WasPressedThisFrame();
     }
 
+    public bool GetUseInput() {
+        return playerInput.actions["Use"].WasPressedThisFrame();
+    }
+
     public bool GetInventaryInput() {
         return playerInput.actions["Inventary"].WasPressedThisFrame();
     }
