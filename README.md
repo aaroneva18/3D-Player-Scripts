@@ -31,6 +31,7 @@ States(folder):
   - SprintState.cs
   - JumpState.cs
   - StealthState.cs
+  - InventaryState.cs
 
 *DISCLAIMER* 
 This project is CURRENTLY on DEVELOPMENT, however, the current files are in a really good point and are totally helpful to start programming a first-person player.
