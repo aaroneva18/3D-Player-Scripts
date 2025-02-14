@@ -39,7 +39,7 @@ public class PlayerInteractable : MonoBehaviour {
 
         RaycastHit hit;
         if (Physics.Raycast(CameraTransform.position, CameraTransform.forward, out hit, RayLength, interactableLayer)) {
-            ShowUI();
+            ShowUI(hit.collider);
             StoreItem(hit.collider);    
             InteractWithItem(hit.collider);
         }
@@ -138,7 +138,16 @@ public class PlayerInteractable : MonoBehaviour {
         }
     }
 
-    public void ShowUI() { }
+    public void ShowUI(Collider Item) {
+        if (Item == null) { return; }
+        if (Item.GetComponent<ObjectManager>().GetInteractableType == InteractableType.Collectable) {
+            
+        } else if (Item.GetComponent<ObjectManager>().GetInteractableType == InteractableType.Usable) {
+            Debug.Log("Press E to use item");
+        }
+
+
+    }
 
     private void SetDefaultState() {
         try {
