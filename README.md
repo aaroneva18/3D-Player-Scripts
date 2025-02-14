@@ -22,6 +22,7 @@ PlayerManager(folder):
   - PlayerInventary.cs
   - PlayerManager.cs
   - PlayerInteractable.cs
+  - PlayerDetectable.cs
 
 States(folder):
   - State.cs
