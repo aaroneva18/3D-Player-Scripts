@@ -71,6 +71,7 @@ PlayerManager(carpeta):
   - PlayerInventary.cs
   - PlayerManager.cs
   - PlayerInteractable.cs
+  - PlayerDetectable.cs
 
 States(carpeta):
   - State.cs
@@ -80,7 +81,8 @@ States(carpeta):
   - SprintState.cs
   - JumpState.cs
   - StealthState.cs
-
+  - InventaryState.cs
+ 
 *DISCLAIMER* 
 Este proyecto esta ACTUALMENTE en DESARROLLO, sin embargo, los archivos actuales están en un buen punto y son de total ayuda para empezar a programar un Player en primera persona.
 
