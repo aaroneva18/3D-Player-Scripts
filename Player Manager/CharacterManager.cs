@@ -20,6 +20,23 @@ public abstract class CharacterManager : MonoBehaviour
     public abstract void Respawn();
     public abstract void SetDefaultState();
 
+    public bool IsHealthFull() {
+        return health == maxHealth;
+    }
+
+    public bool IsHealthEmpty() {
+        return health == 0;
+    }
+
+    public bool IsCharacterHealthy() {
+        float threshold = maxHealth * 0.75f;    
+        return health > threshold;
+    }
+
+    public bool IsCharacterHurt() {
+        return health <= maxHealth / 2;
+    }
+
     public void TakeDamage(int p_damage) {
         if (p_damage >= maxHealth) { Dead(); }
         health -= p_damage;
@@ -31,7 +48,5 @@ public abstract class CharacterManager : MonoBehaviour
         health += p_heal;
     }
 
-    public void TeleportTo(Transform desirePosition) {
-        transform.position = desirePosition.position;
-    }
+
 }
