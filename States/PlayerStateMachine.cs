@@ -18,8 +18,8 @@ public class PlayerStateMachine : StateMachine
 
     void Start()
     {
-        WalkState walkState = new WalkState(playerMovement, inputManager, this);
-        IddleState iddleState = new IddleState(playerMovement, this, inputManager);
+        WalkState walkState = new WalkState(playerMovement);
+        IddleState iddleState = new IddleState(playerMovement);
         JumpState jumpState = new JumpState(playerMovement);
         SprintState sprintState = new SprintState(playerMovement);
         StealthState stealthState = new StealthState(playerMovement, animator);
