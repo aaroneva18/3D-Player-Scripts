@@ -2,23 +2,19 @@ using UnityEngine;
 
 public class WalkState : IState
 {
-    private PlayerMovement movement;
-    private InputManager inputManager;
-    private StateMachine stateMachine;
+    private Movement movement;
 
-    public WalkState(PlayerMovement p_movement, InputManager p_inputManager, StateMachine p_stateMachine) {
+    public WalkState(Movement p_movement) {
         movement = p_movement;
-        inputManager = p_inputManager;
-        stateMachine = p_stateMachine;
     }
 
     public void Enter() {
-        Debug.Log("Walk state enter");
         movement.SetPlayable(true);
         movement.SetCurrentSpeed(7f);   
     }
 
     public void Execute(){
+
     }
 
     public void FixedExecute() {
@@ -26,7 +22,6 @@ public class WalkState : IState
     }
 
     public void Exit() {
-        Debug.Log("Walk state exit");
     }
 
 
